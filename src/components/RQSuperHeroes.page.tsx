@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useSuperHeroesData, {
   useAddSuperHeroData,
+  useDeleteSuperHeroData,
 } from "../hooks/useSuperHeroesData";
 
 const RQSuperHeores = () => {
@@ -16,19 +17,27 @@ const RQSuperHeores = () => {
     console.log("Perform side effect after ecountering error", error);
   };
 
-  const { isLoading, data, isError, error, isFetching, refetch } =
-    useSuperHeroesData(onSuccess, onError);
+  const { isLoading, data, isError, error, refetch } = useSuperHeroesData(
+    onSuccess,
+    onError
+  );
 
   const { mutate: addHero } = useAddSuperHeroData();
+
   const handleAddHeroClick = () => {
-    console.log({ name, alterEgo });
     const hero = { name, alterEgo };
     addHero(hero);
     setName("");
     setAlterEgo("");
   };
 
-  if (isLoading || isFetching) return <div>Loading ....</div>;
+  const { mutate: deleteHero } = useDeleteSuperHeroData();
+
+  const handleDeleteHeroClick = (heroId: any) => {
+    deleteHero(heroId);
+  };
+
+  if (isLoading) return <div>Loading ....</div>;
   if (isError) return <div>{error.message}</div>;
 
   return (
@@ -52,6 +61,9 @@ const RQSuperHeores = () => {
         return (
           <div key={hero.name}>
             <Link to={`/rq-super-heroes/${hero.id}`}>{hero.name}</Link>
+            <button onClick={handleDeleteHeroClick.bind(this, hero.id)}>
+              Delete super hero
+            </button>
           </div>
         );
       })}

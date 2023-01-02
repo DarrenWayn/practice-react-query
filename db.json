@@ -1,31 +1,5 @@
 {
-  "superheroes": [
-    {
-      "id": 1,
-      "name": "Batman",
-      "alterEgo": "Bruce Wayne"
-    },
-    {
-      "id": 2,
-      "name": "Superman",
-      "alterEgo": "Clark Kent"
-    },
-    {
-      "id": 3,
-      "name": "Wonder Woman 1",
-      "alterEgo": "Princess Diana"
-    },
-    {
-      "name": "test ",
-      "alterEgo": "berry alen",
-      "id": 4
-    },
-    {
-      "name": "the flash",
-      "alterEgo": "farren",
-      "id": 5
-    }
-  ],
+  "superheroes": [],
   "friends": [
     {
       "id": 1,
