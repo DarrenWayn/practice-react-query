@@ -1,20 +1,32 @@
 import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { request } from "../utils/axios-utils";
 
 const fetchSuperHeores = () => {
-  return axios.get("http://localhost:4000/superheroes");
+  try {
+    /* return axios.get("http://localhost:4000/superheroes"); */
+    return request({ url: "/superheroes", method: "get" });
+  } catch (err) {
+    throw err;
+  }
 };
 
 const addSuperHero = (hero: any) => {
   try {
-    return axios.post("http://localhost:4000/superheroes", hero);
+    /* return axios.post("http://localhost:4000/superheroes", hero); */
+    return request({ url: "/superheroes", method: "post", data: hero });
   } catch (err) {
     throw err;
   }
 };
 
 const deleteSuperHero = (heroId: any) => {
-  return axios.delete(`http://localhost:4000/superheroes/${heroId}`);
+  try {
+    /* return axios.delete(`http://localhost:4000/superheroes/${heroId}`); */
+    return request({ url: "superheroes", method: "delete", data: heroId });
+  } catch (err) {
+    throw err;
+  }
 };
 
 const useSuperHeroesData = (onSuccess: any, onError: any) => {
@@ -71,6 +83,9 @@ export const useAddSuperHeroData = () => {
 export const useDeleteSuperHeroData = () => {
   const queryClient = useQueryClient();
   return useMutation(deleteSuperHero, {
+    onMutate: () => {
+      queryClient.invalidateQueries("super-heroes");
+    },
     onError: (_error, _hero, context) => {
       queryClient.setQueryData("super-heroes", context);
     },
